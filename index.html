@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>projectrichardson</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <style>
+        :root{
+            --bg:#061025;
+            --card:#071226;
+            --muted:#9bb0c6;
+            --accent:#4f46e5;
+            --glass: rgba(255,255,255,0.04);
+            --glass-2: rgba(255,255,255,0.02);
+        }
+        *{box-sizing:border-box}
+        html,body{height:100%}
+        body{
+            font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            background: linear-gradient(180deg,#031226 0%, #071830 100%);
+            color:#e6eef8;
+            margin:0; padding:48px 28px 32px;
+            min-height:100vh;
+            display:flex; align-items:flex-start; justify-content:center;
+            -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+        }
+
+        /* Top centered project header */
+        .top-header{
+            position:fixed;
+            left:50%; top:18px;
+            transform:translateX(-50%);
+            display:flex;align-items:center;gap:14px;
+            z-index:60;
+            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+            padding:12px 18px;border-radius:14px;border:1px solid rgba(255,255,255,0.04);
+            box-shadow: 0 10px 40px rgba(2,6,23,0.6);
+            backdrop-filter: blur(8px);
+        }
+        .project-badge{
+            width:64px;height:64px;border-radius:12px;
+            display:flex;align-items:center;justify-content:center;font-weight:800;color:white;
+            background: linear-gradient(135deg,var(--accent),#06b6d4);
+            font-size:22px; letter-spacing:0.6px;
+            box-shadow: 0 6px 18px rgba(79,70,229,0.18), inset 0 -6px 20px rgba(6,182,212,0.04);
+        }
+        .project-name{
+            font-weight:900;
+            font-size:28px;
+            letter-spacing:0.8px;
+            color: #fff;
+            transition: color 300ms ease, transform 200ms ease;
+            text-transform: lowercase;
+        }
+        .project-sub{
+            display:block;font-size:12px;color:var(--muted);margin-top:2px;opacity:0.95;
+            text-transform:uppercase;letter-spacing:1px;
+        }
+
+        /* Bigger, more beautiful card */
+        .card{
+            width:100%; max-width:1100px; background:linear-gradient(180deg,var(--card),#071223);
+            border-radius:16px; padding:36px; box-shadow: 0 16px 60px rgba(2,6,23,0.6);
+            border:1px solid rgba(255,255,255,0.03);
+            margin-top:70px;
+        }
+        header{display:flex;align-items:center;gap:18px;margin-bottom:20px}
+        .logo{
+            width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#06b6d4);
+            display:flex;align-items:center;justify-content:center;font-weight:800;color:white;font-size:28px
+        }
+        h1{font-size:18px;margin:0;color:#f0f7ff}
+        p.lead{margin:0;color:var(--muted);font-size:1rem}
+
+        .row{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-top:16px}
+        label{font-size:0.95rem;color:var(--muted);margin-bottom:8px;display:block}
+        select,textarea,button{
+            border-radius:12px;border:1px solid rgba(255,255,255,0.06);background:var(--glass);
+            color:#e8f0ff;padding:12px;font-size:1rem;
+        }
+        .controls{display:flex;gap:10px;align-items:center}
+        select{min-width:180px}
+        textarea{width:100%;min-height:180px;padding:16px;color:#e8f0ff;resize:vertical;font-size:1rem}
+        .output{min-height:160px;padding:16px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));
+            border-radius:12px;border:1px solid rgba(255,255,255,0.03);white-space:pre-wrap;color:#e8f0ff;font-size:1rem;
+        }
+
+        .btn{
+            cursor:pointer;border:none;display:inline-flex;align-items:center;gap:8px;
+            font-weight:700;padding:12px 16px;border-radius:12px;background:linear-gradient(90deg,var(--accent),#06b6d4);
+            color:white;box-shadow:0 8px 20px rgba(79,70,229,0.18);
+        }
+        .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);font-weight:700}
+        .small{font-size:0.9rem;color:var(--muted);margin-top:12px}
+
+        .meta{display:flex;gap:12px;align-items:center;margin-top:16px;flex-wrap:wrap}
+        .swap{padding:8px 12px}
+
+        /* subtle hover transform on header */
+        .top-header:hover .project-name{transform:translateY(-2px)}
+
+        @media (max-width:880px){
+            .card{padding:24px;max-width:92%}
+            .project-name{font-size:22px}
+            .project-badge{width:52px;height:52px;font-size:18px}
+            .logo{width:54px;height:54px;font-size:22px}
+        }
+        @media (max-width:560px){
+            .controls{flex-direction:column;align-items:stretch}
+            select{width:100%}
+            .row{flex-direction:column}
+            .top-header{position:static;transform:none;left:auto;top:auto;margin-bottom:12px}
+            .card{margin-top:18px}
+        }
+    </style>
+</head>
+<body>
+    <!-- Top centered project header (larger name) -->
+    <div class="top-header" aria-hidden="false">
+        <div class="project-badge" aria-hidden="true">PR</div>
+        <div>
+            <div id="projectName" class="project-name">projectrichardson</div>
+            <span class="project-sub">modern translator</span>
+        </div>
+    </div>
+
+    <div class="card" role="main" aria-labelledby="projectName">
+        <header>
+            <div class="logo" aria-hidden="true">T</div>
+            <div>
+                <h1>Translator — English · Português · Français</h1>
+                <p class="lead">Choose the language you speak (source) and the language you want (target). Uses LibreTranslate, with a built-in fallback dictionary.</p>
+            </div>
+        </header>
+
+        <label for="text">Text to translate</label>
+        <textarea id="text" placeholder="Type or paste text here... Examples: 'Hello, how are you?', 'Bom dia', 'Merci!'"></textarea>
+
+        <div class="row">
+            <div style="flex:1;min-width:240px">
+                <label for="source">I speak</label>
+                <select id="source">
+                    <option value="auto">Auto detect</option>
+                    <option value="en">English</option>
+                    <option value="pt">Português</option>
+                    <option value="fr">Français</option>
+                </select>
+            </div>
+
+            <div style="flex:1;min-width:240px">
+                <label for="target">Translate to</label>
+                <select id="target">
+                    <option value="en">English</option>
+                    <option value="pt">Português</option>
+                    <option value="fr">Français</option>
+                </select>
+            </div>
+
+            <div class="controls" style="margin-left:auto">
+                <button id="translate" class="btn">Translate ▶</button>
+                <button id="swap" class="btn ghost swap">Swap ↔</button>
+                <button id="clear" class="btn ghost">Clear ✖</button>
+            </div>
+        </div>
+
+        <p class="small">Note: This tries a free public translation API (LibreTranslate). If network/API fails, a local fallback dictionary for common phrases will be used.</p>
+
+        <label>Translation</label>
+        <div id="result" class="output" aria-live="polite"></div>
+
+        <div class="meta">
+            <div class="small">Tip: press Ctrl/Cmd + Enter to translate quickly.</div>
+            <div style="margin-left:auto" class="small">Offline fallback supports common greetings, numbers, days, simple verbs and polite phrases.</div>
+        </div>
+    </div>
+
+    <script>
+        // color-cycling header (changes every 1 second)
+        (function(){
+            const nameEl = document.getElementById('projectName');
+            const colors = ['#4f46e5','#06b6d4','#10b981','#f59e0b','#ef4444','#a78bfa','#f97316'];
+            let idx = 0;
+            nameEl.style.color = colors[0];
+            setInterval(() => {
+                idx = (idx + 1) % colors.length;
+                nameEl.style.color = colors[idx];
+            }, 1000);
+        })();
+
+        // Elements
+        const textEl = document.getElementById('text');
+        const resultEl = document.getElementById('result');
+        const sourceEl = document.getElementById('source');
+        const targetEl = document.getElementById('target');
+        const translateBtn = document.getElementById('translate');
+        const clearBtn = document.getElementById('clear');
+        const swapBtn = document.getElementById('swap');
+
+        // Expanded fallback dictionary per language pair (lowercase keys)
+        const dict = {
+            en: {
+                pt: {
+                    "hello":"olá","hi":"oi","good morning":"bom dia","good night":"boa noite","thank you":"obrigado","thanks":"obrigado",
+                    "please":"por favor","how are you?":"como vai?","i love you":"eu te amo","sorry":"desculpe","bye":"tchau",
+                    "yes":"sim","no":"não","goodbye":"adeus","what is your name?":"qual é o seu nome?","my name is":"meu nome é",
+                    "one":"um","two":"dois","three":"três","today":"hoje","tomorrow":"amanhã"
+                },
+                fr: {
+                    "hello":"bonjour","hi":"salut","good morning":"bonjour","good night":"bonne nuit","thank you":"merci","thanks":"merci",
+                    "please":"s'il vous plaît","how are you?":"comment ça va?","i love you":"je t'aime","sorry":"désolé","bye":"au revoir",
+                    "yes":"oui","no":"non","goodbye":"au revoir","what is your name?":"comment vous appelez-vous?","my name is":"je m'appelle",
+                    "one":"un","two":"deux","three":"trois","today":"aujourd'hui","tomorrow":"demain"
+                }
+            },
+            pt: {
+                en: {
+                    "olá":"hello","oi":"hi","bom dia":"good morning","boa noite":"good night","obrigado":"thank you","obrigada":"thank you",
+                    "por favor":"please","como vai?":"how are you?","eu te amo":"i love you","desculpe":"sorry","tchau":"bye",
+                    "sim":"yes","não":"no","adeus":"goodbye","qual é o seu nome?":"what is your name?","meu nome é":"my name is",
+                    "um":"one","dois":"two","três":"three","hoje":"today","amanhã":"tomorrow"
+                },
+                fr: {
+                    "olá":"bonjour","oi":"salut","bom dia":"bonjour","boa noite":"bonne nuit","obrigado":"merci",
+                    "por favor":"s'il vous plaît","como vai?":"comment ça va?","tchau":"au revoir","sim":"oui","não":"non",
+                    "eu te amo":"je t'aime"
+                }
+            },
+            fr: {
+                en: {
+                    "bonjour":"hello","salut":"hi","bonne nuit":"good night","merci":"thank you","s'il vous plaît":"please",
+                    "comment ça va?":"how are you?","je t'aime":"i love you","désolé":"sorry","au revoir":"bye","oui":"yes","non":"no",
+                    "aujourd'hui":"today","demain":"tomorrow","un":"one","deux":"two","trois":"three"
+                },
+                pt: {
+                    "bonjour":"olá","salut":"oi","bonne nuit":"boa noite","merci":"obrigado","s'il vous plaît":"por favor",
+                    "comment ça va?":"como vai?","au revoir":"tchau","oui":"sim","non":"não","je t'aime":"eu te amo"
+                }
+            }
+        };
+
+        // Utility: try direct phrase then token-by-token
+        function simpleFallbackTranslate(text, source, target) {
+            if (!text) return '';
+            const raw = text.trim();
+            const lowered = raw.toLowerCase();
+
+            // if source is 'auto' try to detect by matching known words
+            let from = source;
+            if (from === 'auto') {
+                const tokens = lowered.split(/\s+/);
+                const scores = {en:0,pt:0,fr:0};
+                tokens.forEach(tok => {
+                    ['en','pt','fr'].forEach(lang => {
+                        const map = dict[lang];
+                        if (!map) return;
+                        Object.values(map).forEach(pair => {
+                            if (pair[tok]) scores[lang]++;
+                        });
+                    });
+                });
+                from = Object.keys(scores).reduce((a,b)=> scores[a]>=scores[b]?a:b);
+            }
+
+            if (from === target) return raw;
+
+            const pair = dict[from] && dict[from][target];
+            if (pair && pair[lowered]) return pair[lowered];
+
+            const tokens = raw.split(/([.,!?;:\n\r]+)/);
+            return tokens.map(segment => {
+                const key = segment.trim().toLowerCase();
+                if (!key) return segment;
+                if (pair && pair[key]) {
+                    const translated = pair[key];
+                    if (segment[0] === segment[0].toUpperCase()) return capitalize(translated);
+                    return translated;
+                }
+                return segment;
+            }).join('');
+        }
+
+        function capitalize(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
+
+        async function translate() {
+            const q = textEl.value.trim();
+            if (!q) { resultEl.textContent = ''; return; }
+            resultEl.textContent = 'Translating...';
+            const source = sourceEl.value;
+            const target = targetEl.value;
+            if (source === target) { resultEl.textContent = q; return; }
+
+            try {
+                const resp = await fetch('https://libretranslate.de/translate', {
+                    method:'POST',
+                    headers: {'Content-Type':'application/json'},
+                    body: JSON.stringify({q, source: source === 'auto' ? 'auto' : source, target, format:'text'})
+                });
+                if (!resp.ok) throw new Error('API failed');
+                const data = await resp.json();
+                if (data && data.translatedText) {
+                    resultEl.textContent = data.translatedText;
+                    return;
+                }
+                throw new Error('No translation returned');
+            } catch (e) {
+                const t = simpleFallbackTranslate(q, source, target);
+                resultEl.textContent = t || 'Translation unavailable (network/API failed and no fallback match).';
+            }
+        }
+
+        translateBtn.addEventListener('click', translate);
+        clearBtn.addEventListener('click', () => { textEl.value=''; resultEl.textContent=''; });
+
+        swapBtn.addEventListener('click', () => {
+            const s = sourceEl.value;
+            const t = targetEl.value;
+            if (s === 'auto') {
+                sourceEl.value = t;
+                targetEl.value = 'auto';
+            } else {
+                sourceEl.value = t === 'auto' ? 'auto' : t;
+                targetEl.value = s;
+            }
+            const prevInput = textEl.value;
+            const prevResult = resultEl.textContent;
+            textEl.value = prevResult || '';
+            resultEl.textContent = prevInput || '';
+        });
+
+        textEl.addEventListener('keydown', (ev) => {
+            if ((ev.ctrlKey || ev.metaKey) && ev.key === 'Enter') { ev.preventDefault(); translate(); }
+        });
+    </script>
+</body>
+</html>
